@@ -1,0 +1,21 @@
+#
+#Mon Mar 19 23:13:14 CET 2018
+owner=
+code=mobileforms
+java-version=j1_7
+official=true
+type=Script
+version=1.0.0-2
+state=testing
+operating-system=all
+dependencies=
+sources-url=
+web-url=
+architecture=all
+model-version=1.0.1
+categories=
+description=
+owner-url=
+buildNumber=2
+gvSIG-version=2.4.0
+name=Mobile forms designer
