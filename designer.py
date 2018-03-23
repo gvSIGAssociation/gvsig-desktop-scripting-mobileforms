@@ -37,6 +37,7 @@ import os
 from org.icepdf.ri.common import SwingController
 from org.icepdf.ri.common import SwingViewBuilder
 
+from addons.mobileforms.fixformpanel import fixFormPanelResourceLoader
 from addons.mobileforms.mobileformsutil import getTitle
 from addons.mobileforms.mobileformsutil import getDataFolder
 from addons.mobileforms.mobileformsutil import initDataFolder
@@ -422,10 +423,12 @@ class Designer(FormPanel):
     pdfPanel = SwingViewBuilder(controller).buildViewerPanel()
     windowManager = ToolsSwingLocator.getWindowManager()
     windowManager.showWindow(pdfPanel,getTitle(), windowManager.MODE.WINDOW)
-      
-        
+
+
 def showDesigner():
 
+    fixFormPanelResourceLoader()
+    
     initDataFolder()
     
     registerFactory(MobileFormItemUnknownFactory())
