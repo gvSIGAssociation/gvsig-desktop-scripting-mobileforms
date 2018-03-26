@@ -122,7 +122,7 @@ class FormItemPreviewCellRenderer(JPanel,TableCellRenderer):
 class Designer(FormPanel):
   def __init__(self):
     FormPanel.__init__(self, getResource(__file__, "designer.xml"))
-    self.setPreferredSize(700,400)
+    self.setPreferredSize(700,500)
     self.__forms = None
     self.__lastItem = None
     self.__lastItemPanel = None
@@ -130,6 +130,8 @@ class Designer(FormPanel):
     self.__currentForm = None
     self.__lastPath = getDataFolder()
     self.newForms()
+    self.tblPreviewForm.getParent().getParent().setBorder(None)
+    self.tblPreviewForm.getParent().getParent().setViewportBorder(None)
     
   def setForms(self, forms):
     self.clearFormPreview()
@@ -237,6 +239,8 @@ class Designer(FormPanel):
     self.btnFormDelete.setEnabled(True)
     self.btnFormAdd.setEnabled(True)
     self.__currentForm = form
+    self.lstPreviewForms.setSelectedValue(form,True)
+      
     
   def lstFormItems_change(self, event):
     if event.getValueIsAdjusting() :
