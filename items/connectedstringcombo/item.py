@@ -15,6 +15,9 @@ from addons.mobileforms.items.item import MobileFormItemFactory
 from addons.mobileforms.items.item import MobileFormItem
 from addons.mobileforms.items.item import MobileFormItemPanel
 
+MIN_COMBOS=1
+MAX_COMBOS=3
+
 class MobileFormItemConnectedStringComboFactory(MobileFormItemFactory):
   def __init__(self):
     MobileFormItemFactory.__init__(self,"connectedstringcombo","Connected combo string")
@@ -74,10 +77,11 @@ class OneCombo(FormComponent):
     self.btnUp = btnUp
     self.btnDown = btnDown
     self.btnDelete = btnDelete
-    self.btnAdd = btnDelete
-
+    self.btnAdd = btnAdd
+    
   def setVisible(self, visible):
     self.lstValues.setVisible(visible)
+    self.lstValues.getParent().getParent().setVisible(visible) # JScrollPane
     self.btnUp.setVisible(visible)
     self.btnDown.setVisible(visible)
     self.btnDelete.setVisible(visible)
@@ -157,7 +161,7 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
     MobileFormItemPanel.__init__(self,factory)
     FormPanel.__init__(self, getResource(__file__, "properties.xml"))
     self.__combos = list()
-    for n in range(1,4):
+    for n in range(MIN_COMBOS,MAX_COMBOS+1):
       combo = OneCombo(
         self,
         n,
@@ -222,8 +226,22 @@ class MobileFormItemConnectedStringComboPreviewPanel(MobileFormItemPanel, FormPa
     FormPanel.__init__(self, getResource(__file__, "preview.xml"))
 
   def put(self, item):
-    pass
-        
+    self.lblLabel.setText(item.getCaption())
+    self.btnClose.setVisible(False)
+    allvalues = item.getValues()
+    for n in range(MIN_COMBOS,MAX_COMBOS+1):
+      combo = getattr(self,"cboValues%s"%n,None)
+      if combo == None:
+        continue
+      if n > len(allvalues):
+        combo.setVisible(False)
+        continue
+      combo.setVisible(True)
+      model = combo.getModel()
+      model.removeAllElements()
+      for value in allvalues[n-1]:
+        model.addElement(str(value))
+ 
   def fetch(self,item):
     pass
 

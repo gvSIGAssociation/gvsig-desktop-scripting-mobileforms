@@ -67,12 +67,12 @@ class MobileFormItem(object):
 
   def getCaption(self):
     caption = self.getLabel()
-    if caption == None:
-      return self.getKey()
+    if caption != None:
+      return caption
     caption = self.getKey()
-    if caption == None:
-      return ""
-    return caption.strip()
+    if caption != None:
+      return caption.strip()
+    return ""
 
   def setMandatory(self, mandatory):
     if mandatory in ( True, False):
