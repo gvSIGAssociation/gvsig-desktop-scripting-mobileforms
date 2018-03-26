@@ -31,6 +31,7 @@ from javax.swing.table import TableCellRenderer
 from javax.swing.table import TableColumn
 from org.gvsig.scripting import ScriptingLocator
 from org.gvsig.tools.swing.api import ToolsSwingLocator
+from org.gvsig.webbrowser import WebBrowserFactory
 import jarray
 import os
 
@@ -421,13 +422,14 @@ class Designer(FormPanel):
     popup.setLocation(p.x+((self.btnFormItemAdd.getWidth()/4)*3),p.y+self.btnFormItemAdd.getHeight())
 
   def btnHelp_click(self,*args):
-    controller = SwingController()
-    controller.setIsEmbeddedComponent(True)
-    controller.openDocument(File(getResource(__file__, "doc", "mobileforms.pdf")).toURI().toURL())  
-    pdfPanel = SwingViewBuilder(controller).buildViewerPanel()
+    #controller = SwingController()
+    #controller.setIsEmbeddedComponent(True)
+    #controller.openDocument(File(getResource(__file__, "doc", "mobileforms.pdf")).toURI().toURL())  
+    #panel = SwingViewBuilder(controller).buildViewerPanel()
+    panel = WebBrowserFactory.createWebBrowserPanel()
+    panel.setPage(File(getResource(__file__, "doc", "mobileforms.html")).toURI().toURL())
     windowManager = ToolsSwingLocator.getWindowManager()
-    windowManager.showWindow(pdfPanel,getTitle(), windowManager.MODE.WINDOW)
-
+    windowManager.showWindow(panel,getTitle(), windowManager.MODE.WINDOW)
 
 def showDesigner():
 
