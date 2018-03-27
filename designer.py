@@ -288,7 +288,8 @@ class Designer(FormPanel):
     self.tblPreviewForm.setColumnModel(model)
     self.tblPreviewForm.getTableHeader().setUI(None)
     self.tblPreviewForm.setVisible(True)
-
+    self.cboForms.setSelectedItem(form)
+    
   def btnFileOpen_click(self, *args):
     f = openFileDialog(u"Select the 'Tags' file to open", initialPath=self.__lastPath)
     if f == None:

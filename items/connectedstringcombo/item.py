@@ -16,6 +16,7 @@ from addons.mobileforms.mobileformsutil import getTitle
 from addons.mobileforms.items.item import MobileFormItemFactory
 from addons.mobileforms.items.item import MobileFormItem
 from addons.mobileforms.items.item import MobileFormItemPanel
+from addons.mobileforms.mobileformsutil import isEmpty
 
 MIN_COMBOS=1
 MAX_COMBOS=3
@@ -67,13 +68,21 @@ class MobileFormItemConnectedStringCombo(MobileFormItem):
       
   def asDict(self):
     d = MobileFormItem.asDict(self)
-    print "!!! Ojooooo, que el connectedstringcombo aun no guarda sus valores"
-    # FIXME
+    n = 1
+    values = OrderedDict()
+    for items in self.__values:
+      key = "items %s" % n
+      values[key] = list() 
+      for item in items:
+        values[key].append({"item": item})
+      n+=1    
+    d["values"] = values
     return d
 
 
 class OneCombo(FormComponent):
   def __init__(self, form, index, lstValues, btnUp, btnDown, btnDelete, btnAdd):
+    FormComponent.__init__(self)
     self.form = form
     self.index = index
     self.lstValues = lstValues
@@ -81,6 +90,7 @@ class OneCombo(FormComponent):
     self.btnDown = btnDown
     self.btnDelete = btnDelete
     self.btnAdd = btnAdd
+    self.autobind()
     
   def setVisible(self, visible):
     self.lstValues.setVisible(visible)
@@ -103,16 +113,31 @@ class OneCombo(FormComponent):
       values.append(value)
     return values
 
+  def getValue(self):
+    x = self.lstValues.getSelectedValue()
+    if x==None:
+      x = ""
+    return x
+    
+  def setValue(self, value):
+    if isEmpty(value):
+      self.lstValues.clearSelection()
+    else:
+      self.lstValues.setSelectedValue(value,True)
+    
   def isEmpty(self):
     return self.lstValues.getModel().getSize()==0
+
+  def clearSelection(self):
+    self.lstValues.clearSelection()
     
   def lstValues_change(self, event):
     if event.getValueIsAdjusting() :
       return
     value = self.lstValues.getSelectedValue()
-    if value == None:
-      value = ""
-    self.form.updateValue()
+    if isEmpty(value):
+      return
+    self.form.updateValue("Items %s#%s" % (self.index, value))
     
   def btnUp_click(self, *args):
     model = self.lstValues.getModel()
@@ -177,15 +202,14 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
       combo.setVisible(False)
       self.__combos.append(combo)
       
-  def updateValue(self):
-    value = None
-    for combo in self.__combos:
-      if value == None:
-        value = combo.getValue()
-      else:
-        value = ";" + combo.getValue()
-    self.txtValue.ettext(value)
+  def updateValue(self, value):
+    self.txtValue.setText(value)
     
+  def btnClearValue_click(self, *args):
+    self.txtValue.setText("")
+    for combo in self.__combos:
+      combo.clearSelection()
+          
   def put(self, item):
     self.txtType.setText(item.getFactory().getID())
     self.txtKey.setText(item.getKey())
@@ -193,9 +217,18 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
     self.chkMandatory.setSelected(item.isMandatory())
     self.chkIsLabel.setSelected(item.isLabel())
 
+    allvalues = item.getValues()
+
+    selecteds = item.getValue()
+    if isEmpty(selecteds):
+      selecteds = [None]*len(allvalues)
+    else:
+      selecteds = selecteds.split("#")
+      if len(selecteds) != len(allvalues):
+        selecteds = [None]*len(allvalues)
+        
     n = 1
     self.__combos = list()
-    allvalues = item.getValues()
     for values in allvalues:
       combo = OneCombo(
         self,
@@ -208,6 +241,7 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
       )
       combo.setValues(values)
       combo.setVisible(True)
+      combo.setValue(selecteds[n-1])
       self.__combos.append(combo)
       n+=1
 

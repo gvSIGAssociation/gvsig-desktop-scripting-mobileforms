@@ -110,7 +110,10 @@ class MobileFormItemStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
       value = ""
     self.txtValue.setText(str(value))
     
-    
+  def btnClearValue_click(self, *args):
+    self.txtValue.setText("")
+    self.lstValues.clearSelection()
+        
   def btnUp_click(self, *args):
     model = self.lstValues.getModel()
     index = self.lstValues.getSelectedIndex()
