@@ -1,9 +1,12 @@
 # encoding: utf-8
 
 import gvsig
+from collections import OrderedDict
 
 from gvsig import getResource
 from gvsig.libs.formpanel import FormPanel
+
+from addons.mobileforms.mobileformsutil import isEmpty
 
 class MobileFormItemFactory(object):
   def __init__(self, id, name=None):
@@ -38,9 +41,9 @@ class MobileFormItem(object):
 
   def __str__(self):
     key = self.getKey()
-    if key in (None, ""):
+    if isEmpty(key):
       return self.getType()
-    return "%s - %s" % (key, self.getType())
+    return "%s [%s]" % (key, self.getType())
 
   __repr__ = __str__
   
@@ -54,12 +57,14 @@ class MobileFormItem(object):
     return self.__key
 
   def setKey(self, key):
+    #print "setKey(%s)" % key
     self.__key = key
 
   def getLabel(self):
     return self.__label
 
   def setLabel(self, label):
+    #print "setLabel(%s)" % label
     self.__label = label
 
   def isMandatory(self):
@@ -67,10 +72,10 @@ class MobileFormItem(object):
 
   def getCaption(self):
     caption = self.getLabel()
-    if caption != None:
+    if not isEmpty(caption):
       return caption
     caption = self.getKey()
-    if caption != None:
+    if not isEmpty(caption):
       return caption.strip()
     return ""
 
@@ -81,6 +86,7 @@ class MobileFormItem(object):
       self.__mandatory = False
     else:
       self.__mandatory =  (str(mandatory).lower() == "yes")
+    #print "setMandatory(%s)" % self.__mandatory
   
   def setIsLabel(self, isLabel):
     if isLabel in (True, False):
@@ -89,6 +95,7 @@ class MobileFormItem(object):
       self.__isLabel = False
     else:
       self.__isLabel =  (str(isLabel).lower() == "true")
+    #print "setIsLabel(%s)" % self.__isLabel
 
   def isLabel(self):
     return self.__isLabel
@@ -100,13 +107,13 @@ class MobileFormItem(object):
     self.setIsLabel(item.get("islabel",None))
 
   def asDict(self):
-    d = dict()
+    d = OrderedDict()
     d["type"] = self.getFactory().getID()
-    if not self.getKey() in ("",None):
+    if not isEmpty(self.getKey()):
       d["key"] = self.getKey()
     if self.isLabel():
       d["islabel"] = "true"
-    if not self.getLabel() in ("",None):
+    if not isEmpty(self.getLabel()):
       d["label"] = self.getLabel()
     if self.isMandatory():
       d["mandatory"] = "yes"

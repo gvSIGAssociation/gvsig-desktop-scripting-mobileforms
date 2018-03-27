@@ -20,4 +20,16 @@ def initDataFolder():
 
 def getTitle():
   return "Mobile forms designer"
-  
+
+def isEmpty(x):
+  if x == None:
+    return True
+  if isinstance(x,basestring):
+    if x == "":
+      return True
+    return x.strip()==""
+  lenmethod = getattr(x,"__len__",None)
+  if lenmethod!=None:
+    return len(x)==0
+  return False
+    

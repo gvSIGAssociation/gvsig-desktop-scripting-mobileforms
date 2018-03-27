@@ -3,6 +3,7 @@
 import gvsig
 
 import json
+from collections import OrderedDict
 
 from addons.mobileforms.factories import getFactory
 
@@ -24,10 +25,14 @@ class Forms(object):
     f = open(fname,"r")
     s = f.read()
     f.close()
-    self.fromDict(eval(s)[0])
+    #d = eval(s)[0]
+    #print "eval", d
+    d = json.loads(s, object_pairs_hook=OrderedDict)[0]
+    #print "json.loads", d
+    self.fromDict(d)
 
   def save(self, fname):
-    d = dict()
+    d = OrderedDict()
     d["sectionname"] = self.getName()
     d["sectiondescription"] = self.getDescription()
     forms = list()
@@ -97,7 +102,7 @@ class Form(object):
     return self.__name
 
   def asDict(self):
-    d = dict()
+    d = OrderedDict()
     d["formname"] = self.__name
     items = list()
     for item in self.__items:

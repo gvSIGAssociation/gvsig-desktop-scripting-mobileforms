@@ -1,6 +1,8 @@
 # encoding: utf-8
 import gvsig
 
+from collections import OrderedDict
+
 from gvsig import getResource
 from gvsig.commonsdialog import confirmDialog
 from gvsig.commonsdialog import QUESTION
@@ -65,6 +67,7 @@ class MobileFormItemConnectedStringCombo(MobileFormItem):
       
   def asDict(self):
     d = MobileFormItem.asDict(self)
+    print "!!! Ojooooo, que el connectedstringcombo aun no guarda sus valores"
     # FIXME
     return d
 

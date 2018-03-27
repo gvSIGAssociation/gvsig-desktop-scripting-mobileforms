@@ -1,6 +1,8 @@
 # encoding: utf-8
 import gvsig
 
+from collections import OrderedDict
+
 from gvsig import getResource
 from gvsig.commonsdialog import confirmDialog
 from gvsig.commonsdialog import QUESTION
@@ -59,11 +61,11 @@ class MobileFormItemStringCombo(MobileFormItem):
     d = MobileFormItem.asDict(self)
     d["value"] = self.getValue()
     items = list()
-    for item in self.__values():
-      d2 = dict()
+    for item in self.__values:
+      d2 = OrderedDict()
       d2["item"] = item
       items.append(d2)
-    d3 = dict()
+    d3 = OrderedDict()
     d3["items"] = items
     d["values"] = d3
     return d
