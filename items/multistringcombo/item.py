@@ -18,6 +18,8 @@ from addons.mobileforms.items.item import MobileFormItem
 from addons.mobileforms.items.item import MobileFormItemPanel
 
 
+from org.gvsig.tools.swing.api import ToolsSwingLocator
+
 class MobileFormItemMultiStringComboFactory(MobileFormItemFactory):
   def __init__(self):
     MobileFormItemFactory.__init__(self,"multistringcombo","Combo multi-string")
@@ -36,7 +38,7 @@ class MobileFormItemMultiStringCombo(MobileFormItem):
     MobileFormItem.__init__(self,factory, label)
     self.__value = True
     self.__values = list()
-
+      
   def getValue(self):
     return self.__value
     
@@ -75,7 +77,25 @@ class MobileFormItemMultiStringComboPropertiesPanel(MobileFormItemPanel, FormPan
   def __init__(self, factory):
     MobileFormItemPanel.__init__(self,factory)
     FormPanel.__init__(self, getResource(__file__, "properties.xml"))
-
+    self.translateUI()
+    
+  def translateUI(self):
+    manager = ToolsSwingLocator.getToolsSwingManager()
+    for component in ( self.lblType,
+        self.lblKey,
+        self.lblLabel,
+        self.lblValue,
+        self.lblIsLabel,
+        self.lblMandatory,
+        self.lblValues,
+        self.btnClearValue,
+        self.btnUp,
+        self.btnDown,
+        self.btnDelete,
+        self.btnAdd
+      ):
+      manager.translate(component)
+      
   def put(self, item):
     self.txtType.setText(item.getFactory().getID())
     self.txtKey.setText(item.getKey())

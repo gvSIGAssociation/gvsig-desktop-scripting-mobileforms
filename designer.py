@@ -65,6 +65,8 @@ from addons.mobileforms.items.labelwithline.item import MobileFormItemLabelWithL
 from addons.mobileforms.items.dynamicstring.item import MobileFormItemDynamicStringFactory
 from addons.mobileforms.items.connectedstringcombo.item import MobileFormItemConnectedStringComboFactory
 
+from org.gvsig.tools import ToolsLocator
+
 class FormItemAddListener(ActionListener):
   def __init__(self, designer, factory):
     self.__designer = designer
@@ -133,6 +135,31 @@ class Designer(FormPanel):
     self.newForms()
     self.tblPreviewForm.getParent().getParent().setBorder(None)
     self.tblPreviewForm.getParent().getParent().setViewportBorder(None)
+    self.translateUI()
+
+  def translateUI(self):
+    manager = ToolsSwingLocator.getToolsSwingManager()
+    i18n = ToolsLocator.getI18nManager()
+
+    for component in ( self.btnFileNew,
+        self.btnFileSave,
+        self.btnFileOpen,
+        self.btnHelp,
+        self.lblFile,
+        self.lblName,
+        self.lblDescription,
+        self.btnFormDelete,
+        self.btnFormAdd,
+        self.btnFormRename,
+        self.lblFields,
+        self.btnFormItemUp,
+        self.btnFormItemDown,
+        self.btnFormItemDelete,
+        self.btnFormItemAdd
+      ):
+      manager.translate(component)
+    for i in (0,1):
+      self.tabForms.setTitleAt(i, i18n.getTranslation(self.tabForms.getTitleAt(i)))
     
   def setForms(self, forms):
     self.clearFormPreview()
@@ -461,5 +488,9 @@ def showDesigner():
     
         
 def main(*args):
+  
+  #i18nManager = ToolsLocator.getI18nManager()
+  #i18nManager.addResourceFamily("text",File(getResource(__file__,"i18n")))
+
   showDesigner()
   

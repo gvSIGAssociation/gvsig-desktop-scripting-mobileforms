@@ -85,7 +85,7 @@
                  <at name="value">
                   <object classname="com.jeta.forms.store.properties.TabProperty">
                    <at name="name">tab</at>
-                   <at name="title">Forms</at>
+                   <at name="title">_Forms</at>
                    <at name="icon">
                     <object classname="com.jeta.forms.store.properties.IconProperty">
                      <at name="embedded">false</at>
@@ -109,7 +109,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.1550090098</at>
+                     <at name="id">embedded.1646411928</at>
                      <at name="rowspecs">CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.8),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -165,7 +165,7 @@
                            </at>
                            <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                           </super>
-                          <at name="id">embedded.1801706473</at>
+                          <at name="id">embedded.1604004368</at>
                           <at name="rowspecs">FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE,CENTER:DEFAULT:NONE</at>
                           <at name="colspecs">FILL:DEFAULT:GROW(1.0)</at>
                           <at name="components">
@@ -275,7 +275,7 @@
                                 </at>
                                 <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                                </super>
-                               <at name="id">embedded.2120818639</at>
+                               <at name="id">embedded.117621382</at>
                                <at name="rowspecs">CENTER:DEFAULT:NONE</at>
                                <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
                                <at name="components">
@@ -481,7 +481,7 @@
                                         </at>
                                         <at name="name">btnFormItemDown</at>
                                         <at name="width">24</at>
-                                        <at name="toolTipText">Move_down_selected_form_item</at>
+                                        <at name="toolTipText">_Move_down_selected_form_item</at>
                                         <at name="height">24</at>
                                        </object>
                                       </at>
@@ -747,7 +747,7 @@
                            </at>
                            <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                           </super>
-                          <at name="id">embedded.1000300626</at>
+                          <at name="id">embedded.1036749107</at>
                           <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE</at>
                           <at name="colspecs">FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
                           <at name="components">
@@ -1064,9 +1064,9 @@
                                      </at>
                                     </object>
                                    </at>
-                                   <at name="name"></at>
+                                   <at name="name">lblFields</at>
                                    <at name="width">663</at>
-                                   <at name="text">Fields:</at>
+                                   <at name="text">_Fields</at>
                                    <at name="fill">
                                     <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                                      <at name="name">fill</at>
@@ -1265,7 +1265,7 @@
                  <at name="value">
                   <object classname="com.jeta.forms.store.properties.TabProperty">
                    <at name="name">tab</at>
-                   <at name="title">Preview</at>
+                   <at name="title">_Preview</at>
                    <at name="icon">
                     <object classname="com.jeta.forms.store.properties.IconProperty">
                      <at name="embedded">false</at>
@@ -1289,7 +1289,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.338253319</at>
+                     <at name="id">embedded.465833752</at>
                      <at name="rowspecs">CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.8),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -1603,7 +1603,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.1374329815</at>
+        <at name="id">embedded.2065341754</at>
         <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
         <at name="colspecs">FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
         <at name="components">
@@ -1652,9 +1652,9 @@
                    </at>
                   </object>
                  </at>
-                 <at name="width">64</at>
-                 <at name="name"/>
-                 <at name="text">Name</at>
+                 <at name="name">lblName</at>
+                 <at name="width">70</at>
+                 <at name="text">_Name</at>
                  <at name="fill">
                   <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                    <at name="name">fill</at>
@@ -1712,9 +1712,9 @@
                    </at>
                   </object>
                  </at>
-                 <at name="width">64</at>
-                 <at name="name"/>
-                 <at name="text">Description</at>
+                 <at name="name">lblDescription</at>
+                 <at name="width">70</at>
+                 <at name="text">_Description</at>
                  <at name="fill">
                   <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                    <at name="name">fill</at>
@@ -1773,7 +1773,7 @@
                   </object>
                  </at>
                  <at name="name">txtFormsName</at>
-                 <at name="width">738</at>
+                 <at name="width">732</at>
                  <at name="height">20</at>
                 </object>
                </at>
@@ -1827,7 +1827,7 @@
                   </object>
                  </at>
                  <at name="name">txtFormsDescription</at>
-                 <at name="width">738</at>
+                 <at name="width">732</at>
                  <at name="height">20</at>
                 </object>
                </at>
@@ -1880,9 +1880,9 @@
                    </at>
                   </object>
                  </at>
-                 <at name="width">64</at>
-                 <at name="name"/>
-                 <at name="text">File</at>
+                 <at name="name">lblFile</at>
+                 <at name="width">70</at>
+                 <at name="text">_File</at>
                  <at name="fill">
                   <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                    <at name="name">fill</at>
@@ -1943,7 +1943,7 @@
                  <at name="background" object="color">236,233,216</at>
                  <at name="editable">false</at>
                  <at name="name">txtPathName</at>
-                 <at name="width">598</at>
+                 <at name="width">592</at>
                  <at name="height">20</at>
                 </object>
                </at>

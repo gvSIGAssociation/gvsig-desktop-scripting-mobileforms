@@ -24,8 +24,8 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/jjdelcerro/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/2.4.0/scripts/addons/mobileforms/items/boolean/item.xml</at>
-   <at name="path">addons/mobileforms/items/boolean/item.xml</at>
+   <at name="id">/home/jjdelcerro/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/2.4.0/scripts/addons/mobileforms/items/boolean/properties.xml</at>
+   <at name="path">addons/mobileforms/items/boolean/properties.xml</at>
    <at name="rowspecs">CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
    <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
    <at name="components">
@@ -75,8 +75,8 @@
              </object>
             </at>
             <at name="name">lblType</at>
-            <at name="width">59</at>
-            <at name="text">Type</at>
+            <at name="width">65</at>
+            <at name="text">_Type</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -138,70 +138,10 @@
             <at name="background" object="color">236,233,216</at>
             <at name="editable">false</at>
             <at name="name">txtType</at>
-            <at name="width">717</at>
+            <at name="width">742</at>
             <at name="selectionEnd">7</at>
             <at name="text">boolean</at>
             <at name="height">20</at>
-           </object>
-          </at>
-         </object>
-        </at>
-       </object>
-      </at>
-     </item>
-     <item >
-      <at name="value">
-       <object classname="com.jeta.forms.store.memento.BeanMemento">
-        <super classname="com.jeta.forms.store.memento.ComponentMemento">
-         <at name="cellconstraints">
-          <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-           <at name="column">2</at>
-           <at name="row">6</at>
-           <at name="colspan">1</at>
-           <at name="rowspan">1</at>
-           <at name="halign">default</at>
-           <at name="valign">default</at>
-           <at name="insets" object="insets">0,0,0,0</at>
-          </object>
-         </at>
-         <at name="componentclass">com.jeta.forms.gui.form.StandardComponent</at>
-        </super>
-        <at name="jetabeanclass">com.jeta.forms.gui.beans.JETABean</at>
-        <at name="beanclass">com.jeta.forms.components.label.JETALabel</at>
-        <at name="beanproperties">
-         <object classname="com.jeta.forms.store.memento.PropertiesMemento">
-          <at name="classname">com.jeta.forms.components.label.JETALabel</at>
-          <at name="properties">
-           <object classname="com.jeta.forms.store.support.PropertyMap">
-            <at name="border">
-             <object classname="com.jeta.forms.store.properties.CompoundBorderProperty">
-              <super classname="com.jeta.forms.store.properties.BorderProperty">
-               <at name="name">border</at>
-              </super>
-              <at name="borders">
-               <object classname="java.util.LinkedList">
-                <item >
-                 <at name="value">
-                  <object classname="com.jeta.forms.store.properties.DefaultBorderProperty">
-                   <super classname="com.jeta.forms.store.properties.BorderProperty">
-                    <at name="name">border</at>
-                   </super>
-                  </object>
-                 </at>
-                </item>
-               </object>
-              </at>
-             </object>
-            </at>
-            <at name="name">lblLabel</at>
-            <at name="width">59</at>
-            <at name="text">Label</at>
-            <at name="fill">
-             <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
-              <at name="name">fill</at>
-             </object>
-            </at>
-            <at name="height">14</at>
            </object>
           </at>
          </object>
@@ -254,7 +194,7 @@
              </object>
             </at>
             <at name="name">txtLabel</at>
-            <at name="width">717</at>
+            <at name="width">742</at>
             <at name="height">20</at>
            </object>
           </at>
@@ -308,8 +248,8 @@
              </object>
             </at>
             <at name="name">lblMandatory</at>
-            <at name="width">59</at>
-            <at name="text">Mandatory</at>
+            <at name="width">65</at>
+            <at name="text">_Mandatory</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -368,7 +308,7 @@
              </object>
             </at>
             <at name="name">chkMandatory</at>
-            <at name="width">717</at>
+            <at name="width">742</at>
             <at name="height">15</at>
            </object>
           </at>
@@ -421,9 +361,9 @@
               </at>
              </object>
             </at>
-            <at name="width">59</at>
-            <at name="name"/>
-            <at name="text">Value</at>
+            <at name="name">lblValue</at>
+            <at name="width">65</at>
+            <at name="text">_Value</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -495,7 +435,7 @@
              </object>
             </at>
             <at name="name">cboValue</at>
-            <at name="width">717</at>
+            <at name="width">742</at>
             <at name="items">
              <object classname="com.jeta.forms.store.properties.ItemsProperty">
               <at name="name">items</at>
@@ -588,9 +528,9 @@
               </at>
              </object>
             </at>
-            <at name="name"></at>
-            <at name="width">59</at>
-            <at name="text">Key</at>
+            <at name="name">lblKey</at>
+            <at name="width">65</at>
+            <at name="text">_Key</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -649,7 +589,7 @@
              </object>
             </at>
             <at name="name">txtKey</at>
-            <at name="width">717</at>
+            <at name="width">742</at>
             <at name="height">20</at>
            </object>
           </at>
@@ -702,9 +642,9 @@
               </at>
              </object>
             </at>
-            <at name="name"></at>
-            <at name="width">59</at>
-            <at name="text">Is label</at>
+            <at name="name">lblIsLabel</at>
+            <at name="width">65</at>
+            <at name="text">_Is_label</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -763,8 +703,68 @@
              </object>
             </at>
             <at name="name">chkIsLabel</at>
-            <at name="width">717</at>
+            <at name="width">742</at>
             <at name="height">15</at>
+           </object>
+          </at>
+         </object>
+        </at>
+       </object>
+      </at>
+     </item>
+     <item >
+      <at name="value">
+       <object classname="com.jeta.forms.store.memento.BeanMemento">
+        <super classname="com.jeta.forms.store.memento.ComponentMemento">
+         <at name="cellconstraints">
+          <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
+           <at name="column">2</at>
+           <at name="row">6</at>
+           <at name="colspan">1</at>
+           <at name="rowspan">1</at>
+           <at name="halign">default</at>
+           <at name="valign">default</at>
+           <at name="insets" object="insets">0,0,0,0</at>
+          </object>
+         </at>
+         <at name="componentclass">com.jeta.forms.gui.form.StandardComponent</at>
+        </super>
+        <at name="jetabeanclass">com.jeta.forms.gui.beans.JETABean</at>
+        <at name="beanclass">com.jeta.forms.components.label.JETALabel</at>
+        <at name="beanproperties">
+         <object classname="com.jeta.forms.store.memento.PropertiesMemento">
+          <at name="classname">com.jeta.forms.components.label.JETALabel</at>
+          <at name="properties">
+           <object classname="com.jeta.forms.store.support.PropertyMap">
+            <at name="border">
+             <object classname="com.jeta.forms.store.properties.CompoundBorderProperty">
+              <super classname="com.jeta.forms.store.properties.BorderProperty">
+               <at name="name">border</at>
+              </super>
+              <at name="borders">
+               <object classname="java.util.LinkedList">
+                <item >
+                 <at name="value">
+                  <object classname="com.jeta.forms.store.properties.DefaultBorderProperty">
+                   <super classname="com.jeta.forms.store.properties.BorderProperty">
+                    <at name="name">border</at>
+                   </super>
+                  </object>
+                 </at>
+                </item>
+               </object>
+              </at>
+             </object>
+            </at>
+            <at name="name">lblLabel</at>
+            <at name="width">65</at>
+            <at name="text">_Label</at>
+            <at name="fill">
+             <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
+              <at name="name">fill</at>
+             </object>
+            </at>
+            <at name="height">14</at>
            </object>
           </at>
          </object>
@@ -789,7 +789,7 @@
          </at>
         </object>
        </at>
-       <at name="name"/>
+       <at name="name"></at>
        <at name="fill">
         <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
          <at name="name">fill</at>

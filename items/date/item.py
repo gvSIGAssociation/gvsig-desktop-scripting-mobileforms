@@ -9,6 +9,8 @@ from addons.mobileforms.items.item import MobileFormItemFactory
 from addons.mobileforms.items.item import MobileFormItem
 from addons.mobileforms.items.item import MobileFormItemPanel
 
+from org.gvsig.tools.swing.api import ToolsSwingLocator
+
 class MobileFormItemDateFactory(MobileFormItemFactory):
   def __init__(self):
     MobileFormItemFactory.__init__(self,"date","Date")
@@ -46,7 +48,19 @@ class MobileFormItemDatePropertiesPanel(MobileFormItemPanel, FormPanel):
   def __init__(self, factory):
     MobileFormItemPanel.__init__(self,factory)
     FormPanel.__init__(self, getResource(__file__, "properties.xml"))
-
+    self.translateUI()
+    
+  def translateUI(self):
+    manager = ToolsSwingLocator.getToolsSwingManager()
+    for component in ( self.lblType,
+        self.lblKey,
+        self.lblLabel,
+        self.lblValue,
+        self.lblIsLabel,
+        self.lblMandatory
+      ):
+      manager.translate(component)
+      
   def put(self, item):
     self.txtType.setText(item.getFactory().getID())
     self.txtKey.setText(item.getKey())

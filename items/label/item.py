@@ -11,6 +11,8 @@ from addons.mobileforms.items.item import MobileFormItemPanel
 
 from numbers import Number
 
+from org.gvsig.tools.swing.api import ToolsSwingLocator
+
 class MobileFormItemLabelFactory(MobileFormItemFactory):
   def __init__(self):
     MobileFormItemFactory.__init__(self,"label","Label")
@@ -73,6 +75,16 @@ class MobileFormItemLabelPropertiesPanel(MobileFormItemPanel, FormPanel):
   def __init__(self, factory):
     MobileFormItemPanel.__init__(self,factory)
     FormPanel.__init__(self, getResource(__file__, "properties.xml"))
+    self.translateUI()
+    
+  def translateUI(self):
+    manager = ToolsSwingLocator.getToolsSwingManager()
+    for component in ( self.lblType,
+        self.lblValue,
+        self.lblSize,
+        self.lblUrl
+      ):
+      manager.translate(component)
 
   def put(self, item):
     self.txtType.setText(item.getFactory().getID())

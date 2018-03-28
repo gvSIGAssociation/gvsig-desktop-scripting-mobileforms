@@ -18,6 +18,8 @@ from addons.mobileforms.items.item import MobileFormItem
 from addons.mobileforms.items.item import MobileFormItemPanel
 from addons.mobileforms.mobileformsutil import isEmpty
 
+from org.gvsig.tools.swing.api import ToolsSwingLocator
+
 MIN_COMBOS=1
 MAX_COMBOS=3
 
@@ -199,8 +201,34 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
         getattr(self,"btnDelete"+str(n)), 
         getattr(self,"btnAdd"+str(n))
       )
-      combo.setVisible(False)
+      combo.setVisible(True)
       self.__combos.append(combo)
+    self.translateUI()
+    
+  def translateUI(self):
+    manager = ToolsSwingLocator.getToolsSwingManager()
+    for component in ( self.lblType,
+        self.lblKey,
+        self.lblLabel,
+        self.lblValue,
+        self.lblIsLabel,
+        self.lblMandatory,
+        self.lblValues,
+        self.btnClearValue,
+        self.btnUp1,
+        self.btnDown1,
+        self.btnDelete1,
+        self.btnAdd1,
+        self.btnUp2,
+        self.btnDown2,
+        self.btnDelete2,
+        self.btnAdd2,
+        self.btnUp3,
+        self.btnDown3,
+        self.btnDelete3,
+        self.btnAdd3
+      ):
+      manager.translate(component)
       
   def updateValue(self, value):
     self.txtValue.setText(value)
@@ -219,13 +247,13 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
 
     allvalues = item.getValues()
 
-    selecteds = item.getValue()
-    if isEmpty(selecteds):
-      selecteds = [None]*len(allvalues)
-    else:
-      selecteds = selecteds.split("#")
-      if len(selecteds) != len(allvalues):
-        selecteds = [None]*len(allvalues)
+    #selecteds = item.getValue()
+    #if isEmpty(selecteds):
+    #  selecteds = [None]*len(allvalues)
+    #else:
+    #  selecteds = selecteds.split("#")
+    #  if len(selecteds) != len(allvalues):
+    #    selecteds = [None]*len(allvalues)
         
     n = 1
     self.__combos = list()
@@ -241,7 +269,7 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
       )
       combo.setValues(values)
       combo.setVisible(True)
-      combo.setValue(selecteds[n-1])
+      #combo.setValue(selecteds[n-1])
       self.__combos.append(combo)
       n+=1
 

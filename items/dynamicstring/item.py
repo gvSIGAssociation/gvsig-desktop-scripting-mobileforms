@@ -14,6 +14,8 @@ from javax.swing import DefaultListModel
 
 from java.awt import Dimension
 
+from org.gvsig.tools.swing.api import ToolsSwingLocator
+
 class MobileFormItemDynamicStringFactory(MobileFormItemFactory):
   def __init__(self):
     MobileFormItemFactory.__init__(self,"dynamicstring","Dynamic string")
@@ -34,6 +36,19 @@ class MobileFormItemDynamicString(MobileFormItemString):
 class MobileFormItemDynamicStringPropertiesPanel(MobileFormItemStringPropertiesPanel):
   def __init__(self, factory):
     MobileFormItemStringPropertiesPanel.__init__(self,factory)
+    self.translateUI()
+    
+  def translateUI(self):
+    manager = ToolsSwingLocator.getToolsSwingManager()
+    for component in ( self.lblType,
+        self.lblKey,
+        self.lblLabel,
+        self.lblValue,
+        self.lblIsLabel,
+        self.lblMandatory
+      ):
+      manager.translate(component)
+
 
 class MobileFormItemDynamicStringPreviewPanel(MobileFormItemPanel, FormPanel):
   def __init__(self, factory):
