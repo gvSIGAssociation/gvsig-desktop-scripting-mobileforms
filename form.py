@@ -7,10 +7,51 @@ from collections import OrderedDict
 
 from addons.mobileforms.factories import getFactory
 
-class Forms(object):
+class Sections(list):
   def __init__(self):
-    self.__name = None
-    self.__description = None
+    list.__init__(self)
+    self.__fname = None
+
+  def load(self,fname):
+    f = open(fname,"r")
+    rawjson = f.read()
+    f.close()
+    for rawsection in json.loads(rawjson, object_pairs_hook=OrderedDict):
+      section = Section()
+      section.fromDict(rawsection)
+      self.append(section)
+    self.__fname = fname
+
+  def save(self, fname=None):
+    if fname == None:
+      fname = self.__fname
+    if fname == None:
+      raise ValueError("Sections.save can need a file name to save the data")
+    rawsections = list()
+    for section in self:
+      rawsection = section.asDict()
+      rawsections.append(rawsection)
+    rawjson = json.dumps(
+      rawsections, 
+      sort_keys=False,
+      indent=2, 
+      separators=(',', ': ')
+    )
+    f = open(fname,"w")
+    f.write(rawjson)
+    f.close()
+    self.__fname = fname
+
+  def getFilename(self):
+    return self.__fname
+
+  def setFilename(self, fname):
+    self.__fname = fname
+
+class Section(object):
+  def __init__(self, name=None, description=None):
+    self.__name = name
+    self.__description = description
     self.__forms = list()
 
   def getName(self):
@@ -21,34 +62,6 @@ class Forms(object):
 
   __repr__ = __str__
 
-  def load(self,fname):
-    f = open(fname,"r")
-    s = f.read()
-    f.close()
-    #d = eval(s)[0]
-    #print "eval", d
-    d = json.loads(s, object_pairs_hook=OrderedDict)[0]
-    #print "json.loads", d
-    self.fromDict(d)
-
-  def save(self, fname):
-    d = OrderedDict()
-    d["sectionname"] = self.getName()
-    d["sectiondescription"] = self.getDescription()
-    forms = list()
-    for form in self.__forms:
-      forms.append(form.asDict())
-    d["forms"] = forms  
-    s = json.dumps(
-      [ d ], 
-      sort_keys=False,
-      indent=2, 
-      separators=(',', ': ')
-    )
-    f = open(fname,"w")
-    f.write(s)
-    f.close()
-            
   def setName(self,name):
     self.__name = name
 
@@ -75,15 +88,33 @@ class Forms(object):
     
   def __iter__(self):
     return self.__forms.__iter__()
+
+  def find(self, form):
+    if form==None:
+      return -1
+    try:
+      return self.__forms.index(form)
+    except:
+      return -1
   
-  def fromDict(self, d):
-    self.__name = d["sectionname"]
-    self.__description = d["sectiondescription"]
+  def fromDict(self, rawsection):
+    self.__name = rawsection["sectionname"]
+    self.__description = rawsection["sectiondescription"]
     self.__forms = list()
-    for x in d["forms"]:
-      f = Form()
-      f.fromDict(x)
-      self.__forms.append(f)
+    for rawform in rawsection["forms"]:
+      form = Form()
+      form.fromDict(rawform)
+      self.__forms.append(form)
+
+  def asDict(self):
+    rawsection = OrderedDict()
+    rawsection["sectionname"] = self.getName()
+    rawsection["sectiondescription"] = self.getDescription()
+    rawforms = list()
+    for form in self.__forms:
+      rawforms.append(form.asDict())
+    rawsection["forms"] = rawforms  
+    return rawsection
 
 class Form(object):
   def __init__(self, name=""):
@@ -102,21 +133,21 @@ class Form(object):
     return self.__name
 
   def asDict(self):
-    d = OrderedDict()
-    d["formname"] = self.__name
-    items = list()
+    rawform = OrderedDict()
+    rawform["formname"] = self.__name
+    rawitems = list()
     for item in self.__items:
-      items.append(item.asDict())
-    d["formitems"] = items
-    return d
+      rawitems.append(item.asDict())
+    rawform["formitems"] = rawitems
+    return rawform
     
-  def fromDict(self,form):
-    self.__name = form["formname"]
-    for x in form["formitems"]:
-      id = x.get("type","Unknown")
+  def fromDict(self,rawform):
+    self.__name = rawform["formname"]
+    for rawitem in rawform["formitems"]:
+      id = rawitem.get("type","Unknown")
       factory = getFactory(id)
       item = factory.create()
-      item.fromDict(x)
+      item.fromDict(rawitem)
       self.__items.append(item)
 
   def __getitem__(self, index):
