@@ -149,6 +149,12 @@ class MobileFormItemUnknown(MobileFormItem):
     MobileFormItem.__init__(self,factory, label)
     self.__values = dict()
 
+  def getRealType(self):
+    t = self.__values.get("type",None)
+    if t == None:
+      return "unknown"
+    return t
+  
   def getType(self):
     t = self.__values.get("type",None)
     if t == None:
