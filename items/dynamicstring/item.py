@@ -62,9 +62,8 @@ class MobileFormItemDynamicStringPreviewPanel(MobileFormItemPanel, FormPanel):
       model.addElement(line.strip())
     self.lstValues.setModel(model)
     h = self.lstValues.getFixedCellHeight() * model.getSize()
-    d = self.lstValues().getPreferredSize()
-    self.lstValues.setPreferredsize(Dimension(d.width, h))
-    
+    d = self.lstValues.getPreferredSize()
+    self.lstValues.setPreferredSize(Dimension(d.width, h))
 
   def fetch(self,item):
     pass
