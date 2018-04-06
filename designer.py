@@ -586,7 +586,7 @@ class Designer(FormPanel):
     if index < 0:
       return
     if confirmDialog(
-      i18n.getTranslation("_Are_you_sure_you_want_to_delete_the_selected_item") % self.__currentForm[index],
+      i18n.getTranslation("_Are_you_sure_you_want_to_delete_the_selected_item"),
       getTitle(), 
       optionType=YES_NO, 
       messageType=QUESTION) != YES:
