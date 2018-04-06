@@ -162,9 +162,9 @@ class Designer(FormPanel):
     self.translateUI()
 
   def translateUI(self):
-    manager = ToolsSwingLocator.getToolsSwingManager()
-    i18n = ToolsLocator.getI18nManager()
-
+    #manager = ToolsSwingLocator.getToolsSwingManager()
+    from fixtranslatecomponent import TranslateComponent as manager
+    
     for component in ( self.btnFileNew,
         self.btnFileSave,
         self.btnFileOpen,
@@ -182,12 +182,11 @@ class Designer(FormPanel):
         self.btnFormItemUp,
         self.btnFormItemDown,
         self.btnFormItemDelete,
-        self.btnFormItemAdd
+        self.btnFormItemAdd,
+        self.tabForms
       ):
       manager.translate(component)
-    for i in (0,1):
-      self.tabForms.setTitleAt(i, i18n.getTranslation(self.tabForms.getTitleAt(i)))
-    
+      
   def setSections(self, sections):
     self.__sections = sections
     model = DefaultComboBoxModel()
