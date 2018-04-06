@@ -32,10 +32,8 @@ class TranslateComponent(object):
         component.setToolTipText(i18n.getTranslation(s))
     
     elif isinstance(component,JTabbedPane):
-      print "tab", component
       for i in range(0,component.getTabCount()):
         text = component.getTitleAt(i)
-        print "tab %s, %r" % (i,text)
         if not StringUtils.isEmpty(text):
           component.setTitleAt(i, i18n.getTranslation(text))
         text = component.getToolTipTextAt(i)
