@@ -142,6 +142,8 @@ class Designer(FormPanel):
   # Too many public methods (%s/%s)
   def __init__(self):
     #self.btnSectionAdd_click = TraceFunction(self.btnSectionAdd_click, "btnSectionAdd_click")
+    #self.btnFormAdd_click = TraceFunction(self.btnFormAdd_click, "btnFormAdd_click")
+    #self.btnFormDelete_click = TraceFunction(self.btnFormDelete_click, "btnFormDelete_click")
     #self.setForm = TraceFunction(self.setForm)
     #self.setSection = TraceFunction(self.setSection)
     #self.setSections = TraceFunction(self.setSections)
@@ -218,6 +220,8 @@ class Designer(FormPanel):
     self.setForm(None)
 
     if section!=None:
+      self.cboSections.setSelectedItem(section)
+      self.txtSectionDescription.setText(section.getDescription())
       self.btnSectionDelete.setEnabled(True)
       self.btnSectionRename.setEnabled(True)
       model = DefaultComboBoxModel()
@@ -269,9 +273,14 @@ class Designer(FormPanel):
     self.setSections(Sections())
 
   def updateSectionFromUI(self):
-    if self.__currentSection!=None:
-      self.__currentSection.setDescription(self.txtSectionDescription.getText().strip())
+    if self.__currentSection==None:
+      self.setSections(self.__sections)
+      return
+    section = self.__currentSection
+    self.__currentSection.setDescription(self.txtSectionDescription.getText().strip())
+    self.fetchLastItemValues()
     self.setSections(self.__sections)
+    self.setSection(section)
   
   def setForm(self, form):
     self.__currentForm = form
@@ -350,6 +359,7 @@ class Designer(FormPanel):
     section = self.cboSections.getSelectedItem()
     if section == None:
       return
+    self.updateSectionFromUI()
     self.setSection(section)      
     
   def cboForms_click(self,*args):
@@ -443,6 +453,7 @@ class Designer(FormPanel):
       if f == None:
         return
       fname = f[0]
+    self.updateSectionFromUI()
     self.saveSections(fname)
     
   def btnFileNew_click(self, *args): 
