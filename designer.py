@@ -294,6 +294,7 @@ class Designer(FormPanel):
       if index>=0:
         self.btnFormDelete.setEnabled(True)
         self.btnFormRename.setEnabled(True)
+        self.btnFormItemAdd.setEnabled(True)
         self.lstPreviewForms.setSelectedValue(form,True)
         self.cboForms.setEnabled(False)
         self.cboForms.setSelectedIndex(index)
@@ -316,7 +317,7 @@ class Designer(FormPanel):
       self.btnFormItemDelete.setEnabled(False)
       self.btnFormItemUp.setEnabled(False)
       self.btnFormItemDown.setEnabled(False)
-      self.btnFormItemAdd.setEnabled(True)
+      self.btnFormItemAdd.setEnabled(False)
       model = DefaultListModel()
       if form!=None:
         for item in form:
@@ -370,6 +371,7 @@ class Designer(FormPanel):
     self.btnFormItemDelete.setEnabled(True)
     self.btnFormItemUp.setEnabled(True)
     self.btnFormItemDown.setEnabled(True)
+    self.btnFormItemAdd.setEnabled(True)
     factory = item.getFactory()
     panel = factory.createPropertiesPanel()
     if panel == None:
