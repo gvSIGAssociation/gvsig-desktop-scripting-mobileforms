@@ -1,11 +1,11 @@
 #
-#Tue Apr 03 23:10:49 CEST 2018
+#Fri Apr 06 23:56:09 CEST 2018
 owner=
 code=mobileforms
 java-version=j1_7
 official=true
 type=Script
-version=1.0.0-3
+version=1.0.0-4
 state=testing
 operating-system=all
 dependencies=
@@ -13,9 +13,9 @@ sources-url=
 web-url=
 architecture=all
 model-version=1.0.1
-categories=
+categories=Mobile
 description=
 owner-url=
-buildNumber=3
+buildNumber=4
 gvSIG-version=2.4.0
 name=Mobile forms designer
