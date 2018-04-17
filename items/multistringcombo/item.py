@@ -36,7 +36,7 @@ class MobileFormItemMultiStringComboFactory(MobileFormItemFactory):
 class MobileFormItemMultiStringCombo(MobileFormItem):
   def __init__(self, factory, label=None):
     MobileFormItem.__init__(self,factory, label)
-    self.__value = True
+    self.__value = ""
     self.__values = list()
       
   def getValue(self):

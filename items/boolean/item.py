@@ -28,7 +28,7 @@ class MobileFormItemBooleanFactory(MobileFormItemFactory):
 class MobileFormItemBoolean(MobileFormItem):
   def __init__(self, factory, label=None):
     MobileFormItem.__init__(self,factory, label)
-    self.__value = True
+    self.__value = False
 
   def getValue(self):
     return self.__value
@@ -77,7 +77,11 @@ class MobileFormItemBooleanPropertiesPanel(MobileFormItemPanel, FormPanel):
     self.chkMandatory.setSelected(item.isMandatory())
     self.chkIsLabel.setSelected(item.isLabel())
 
-    self.cboValue.setSelectedItem(str(item.getValue()))
+    if item.getValue():
+      self.cboValue.setSelectedItndex(0)
+    else:
+      self.cboValue.setSelectedItndex(1)
+    #self.cboValue.setSelectedItem(str(item.getValue()))
 
   def fetch(self,item):
     item.setKey(self.txtKey.getText())

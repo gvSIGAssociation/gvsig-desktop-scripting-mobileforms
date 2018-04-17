@@ -27,7 +27,7 @@ class MobileFormItemPrimaryKeyFactory(MobileFormItemFactory):
 class MobileFormItemPrimaryKey(MobileFormItem):
   def __init__(self, factory, label=None):
     MobileFormItem.__init__(self,factory, label)
-    self.__value = True
+    self.__value = ""
 
   def getValue(self):
     return self.__value
