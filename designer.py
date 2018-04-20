@@ -169,6 +169,7 @@ class Designer(FormPanel):
     
     for component in ( self.btnFileNew,
         self.btnFileSave,
+        self.btnFileSaveAs,
         self.btnFileOpen,
         self.btnHelp,
         self.lblFile,
@@ -453,6 +454,32 @@ class Designer(FormPanel):
       if f == None:
         return
       fname = f[0]
+    self.updateSectionFromUI()
+    self.saveSections(fname)
+    
+  def btnFileSaveAs_click(self, *args): 
+    i18n = ToolsLocator.getI18nManager()
+    if self.__sections==None or len(self.__sections)<1:
+      msgbox(
+        i18n.getTranslation("_You_must_define_some_section_before_saving"), 
+        getTitle(), 
+        messageType=WARNING
+      )
+      return
+    if self.__currentSection==None or len(self.__currentSection)<1:
+      msgbox(
+        i18n.getTranslation("_You_must_define_some_form_before_saving"), 
+        getTitle(), 
+        messageType=WARNING
+      )
+      return
+    f = saveFileDialog(
+      i18n.getTranslation("_Select_the_Tags_file_to_write"), 
+      initialPath=self.__lastPath
+    )
+    if f == None:
+      return
+    fname = f[0]
     self.updateSectionFromUI()
     self.saveSections(fname)
     
