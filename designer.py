@@ -39,7 +39,7 @@ import os
 from org.icepdf.ri.common import SwingController
 from org.icepdf.ri.common import SwingViewBuilder
 
-from addons.mobileforms.fixformpanel import fixFormPanelResourceLoader
+from addons.mobileforms.patchs.fixformpanel import fixFormPanelResourceLoader
 from addons.mobileforms.mobileformsutil import getTitle
 from addons.mobileforms.mobileformsutil import getDataFolder
 from addons.mobileforms.mobileformsutil import initDataFolder
@@ -165,7 +165,7 @@ class Designer(FormPanel):
 
   def translateUI(self):
     #manager = ToolsSwingLocator.getToolsSwingManager()
-    from fixtranslatecomponent import TranslateComponent as manager
+    from addons.mobileforms.patchs.fixtranslatecomponent import TranslateComponent as manager
     
     for component in ( self.btnFileNew,
         self.btnFileSave,
@@ -674,7 +674,7 @@ def showDesigner():
     registerFactory(MobileFormItemLabelFactory())
     registerFactory(MobileFormItemLabelWithLineFactory())
     registerFactory(MobileFormItemDynamicStringFactory())
-    registerFactory(MobileFormItemConnectedStringComboFactory())
+    #registerFactory(MobileFormItemConnectedStringComboFactory())
     registerFactory(MobileFormItemMapFactory())
     
     designer = Designer()

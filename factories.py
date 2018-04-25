@@ -16,7 +16,7 @@ def getFactory(id):
   factory = factories.get(id,None)
   if factory == None:
     factory = factories.get("unknown")
-    print "!!! getFactory(%s) None, factories %s" % (id, repr(factories))
+    #print "!!! getFactory(%s) None, factories %s" % (id, repr(factories))
   return factory
 
 
