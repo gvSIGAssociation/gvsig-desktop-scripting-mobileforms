@@ -92,6 +92,7 @@ class MobileFormItemStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
         self.btnUp,
         self.btnDown,
         self.btnDelete,
+        self.btnAddEmpty,
         self.btnAdd
       ):
       manager.translate(component)
@@ -106,7 +107,10 @@ class MobileFormItemStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
     model = self.lstValues.getModel()
     model.removeAllElements()
     for value in item.getValues():
-      model.addElement(str(value))
+      s = unicode(value,errors="ignore")
+      if s == "":
+        s = " "
+      model.addElement(s)
     self.lstValues.setSelectedValue(str(item.getValue()), True)
     self.txtValue.setText(str(item.getValue()))
 
@@ -121,6 +125,8 @@ class MobileFormItemStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
     item.setValue(self.txtValue.getText())
     model = self.lstValues.getModel()
     for value in model.elements():
+      if value == " ":
+        value = ""
       values.append(value)
 
   def lstValues_change(self, event):
@@ -171,7 +177,7 @@ class MobileFormItemStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
     
   def btnAdd_click(self, *args):
     model = self.lstValues.getModel()
-    index = self.lstValues.getSelectedIndex()
+    index = self.lstValues.getModel().getSize()
     item = inputbox(
       "Item",
       getTitle(),
@@ -179,6 +185,12 @@ class MobileFormItemStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
       initialValue="item %s" % index
     )
     model.addElement(item)
+
+  def btnAddEmpty_click(self, *args):
+    item = " "
+    model = self.lstValues.getModel()
+    model.addElement(item)
+
 
 class MobileFormItemStringComboPreviewPanel(MobileFormItemPanel, FormPanel):
   def __init__(self, factory):

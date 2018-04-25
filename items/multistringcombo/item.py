@@ -92,6 +92,7 @@ class MobileFormItemMultiStringComboPropertiesPanel(MobileFormItemPanel, FormPan
         self.btnUp,
         self.btnDown,
         self.btnDelete,
+        self.btnAddEmpty,
         self.btnAdd
       ):
       manager.translate(component)
@@ -106,7 +107,10 @@ class MobileFormItemMultiStringComboPropertiesPanel(MobileFormItemPanel, FormPan
     model = self.lstValues.getModel()
     model.removeAllElements()
     for value in item.getValues():
-      model.addElement(str(value))
+      s = unicode(value,errors="ignore")
+      if s == "":
+        s = " "
+      model.addElement(s)
     self.lstValues.setSelectedValue(str(item.getValue()), True)
     self.txtValue.setText(str(item.getValue()))
 
@@ -121,6 +125,8 @@ class MobileFormItemMultiStringComboPropertiesPanel(MobileFormItemPanel, FormPan
     item.setValue(self.txtValue.getText())
     model = self.lstValues.getModel()
     for value in model.elements():
+      if value == " ":
+        value = ""
       values.append(value)
 
   def lstValues_change(self, event):
@@ -178,6 +184,11 @@ class MobileFormItemMultiStringComboPropertiesPanel(MobileFormItemPanel, FormPan
       messageType=QUESTION, 
       initialValue="item %s" % index
     )
+    model.addElement(item)
+
+  def btnAddEmpty_click(self, *args):
+    item = " "
+    model = self.lstValues.getModel()
     model.addElement(item)
 
 class MobileFormItemMultiStringComboPreviewPanel(MobileFormItemPanel, FormPanel):
