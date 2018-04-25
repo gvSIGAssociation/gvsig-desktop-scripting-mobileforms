@@ -541,6 +541,7 @@ class Designer(FormPanel):
       messageType=QUESTION) != YES:
       return
     del self.__sections[index]
+    self.__currentSection = None
     self.updateSectionFromUI()
     
     
