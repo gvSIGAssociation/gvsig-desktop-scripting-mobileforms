@@ -1,5 +1,5 @@
 #
-#Fri Apr 06 23:56:09 CEST 2018
+#Wed Apr 25 19:55:31 CEST 2018
 owner=
 code=mobileforms
 java-version=j1_7
@@ -17,5 +17,6 @@ categories=Mobile
 description=
 owner-url=
 buildNumber=4
+download-url=https\://github.com/gvSIGAssociation/gvsig-desktop-scripting-mobileforms/releases/download/1.0.0-4/gvSIG-desktop-2.4.0-mobileforms-1.0.0-4-testing-all-all-j1_7.gvspkg
 gvSIG-version=2.4.0
 name=Mobile forms designer
