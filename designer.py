@@ -674,7 +674,7 @@ def showDesigner():
     registerFactory(MobileFormItemLabelFactory())
     registerFactory(MobileFormItemLabelWithLineFactory())
     registerFactory(MobileFormItemDynamicStringFactory())
-    #registerFactory(MobileFormItemConnectedStringComboFactory())
+    registerFactory(MobileFormItemConnectedStringComboFactory())
     registerFactory(MobileFormItemMapFactory())
     
     designer = Designer()

@@ -36,63 +36,77 @@ class MobileFormItemConnectedStringComboFactory(MobileFormItemFactory):
   def createPropertiesPanel(self):
     return MobileFormItemConnectedStringComboPropertiesPanel(self)
 
-class MobileFormItemConnectedStringCombo(MobileFormItem):
-  def __init__(self, factory, label=None):
-    MobileFormItem.__init__(self,factory, label)
-    self.__value = None # string
-    self.__values = None # list of list of string
+class ItemWithSubitems(list):
+  def __init__(self, value=None):
+    list.__init__(self)
+    self.__value = value
+
+  def setValue(self, value):
+    self.__value = value
 
   def getValue(self):
     return self.__value
     
-  def setValue(self, value):
-    self.__value = value
-      
-  def getValues(self):
-    return self.__values
-    
-  def fromDict(self, item):
-    try:
-      MobileFormItem.fromDict(self,item)
-      self.__values = list()
-      self.setValue(item.get("value"))
+  def __repr__(self):
+    return self.__value
 
-      allvalues = item["values"].values()
-      for values in allvalues:
-        l = list()
-        for items in values:
-          l.append(str(items.get("item","")))
-        self.__values.append(l)
+  __str__ = __repr__
+    
+class MobileFormItemConnectedStringCombo(MobileFormItem):
+  def __init__(self, factory, label=None):
+    MobileFormItem.__init__(self,factory, label)
+    self.__availableValues = list() # ItemWithSubitems
+    self.__selectedValue = None
+    
+  def getSelectedValue(self):
+    return self.__selectedValue
+
+  def setSelectedValue(self,value):
+    self.__selectedValue = value
+    
+  def getAvailableValues(self):
+    return self.__availableValues
+    
+  def fromDict(self, rawitem):
+    try:
+      MobileFormItem.fromDict(self,rawitem)
+      self.__availableValues = list()
+      rawitems = rawitem.get("values")
+      for rawvalue, rawsubitems in rawitems.items():
+        item = ItemWithSubitems(rawvalue)
+        for x in rawsubitems:
+          item.append(x["item"])
+        self.__availableValues.append(item)
+      self.__selectedValue = rawitem["value"]
       
     except:
-      print "Can't get values from stringcombo: ", repr(item)
+      print "Can't get values from connectedstringcombo: ", repr(rawitem)
       print sys.exc_info()[1]
       
   def asDict(self):
     d = MobileFormItem.asDict(self)
-    n = 1
     values = OrderedDict()
-    for items in self.__values:
-      key = "items %s" % n
-      values[key] = list() 
-      for item in items:
-        values[key].append({"item": item})
-      n+=1    
+    for items in self.__availableValues:
+      rawsubitems = list()
+      for subitem in items:
+        if subitem in ( " ", None):
+          subitem = ""
+        rawsubitems.append({"item": subitem})
+      values[items.getValue()] = rawsubitems
     d["values"] = values
+    d["value"] = self.__selectedValue
     return d
 
 
-class OneCombo(FormComponent):
-  def __init__(self, form, index, lstValues, btnUp, btnDown, btnDelete, btnAdd):
+class BaseCombo(FormComponent):
+  def __init__(self, form, lstValues, btnUp, btnDown, btnDelete, btnAdd):
     FormComponent.__init__(self)
     self.form = form
-    self.index = index
     self.lstValues = lstValues
     self.btnUp = btnUp
     self.btnDown = btnDown
     self.btnDelete = btnDelete
     self.btnAdd = btnAdd
-    self.autobind()
     
   def setVisible(self, visible):
     self.lstValues.setVisible(visible)
@@ -106,7 +120,7 @@ class OneCombo(FormComponent):
     model = self.lstValues.getModel()
     model.removeAllElements()
     for value in values:
-      model.addElement(str(value))
+      model.addElement(value)
 
   def getValues(self):
     model = self.lstValues.getModel()
@@ -117,8 +131,6 @@ class OneCombo(FormComponent):
 
   def getValue(self):
     x = self.lstValues.getSelectedValue()
-    if x==None:
-      x = ""
     return x
     
   def setValue(self, value):
@@ -132,16 +144,8 @@ class OneCombo(FormComponent):
 
   def clearSelection(self):
     self.lstValues.clearSelection()
-    
-  def lstValues_change(self, event):
-    if event.getValueIsAdjusting() :
-      return
-    value = self.lstValues.getSelectedValue()
-    if isEmpty(value):
-      return
-    self.form.updateValue("Items %s#%s" % (self.index, value))
-    
-  def btnUp_click(self, *args):
+
+  def btnUp_click(self, event):
     model = self.lstValues.getModel()
     index = self.lstValues.getSelectedIndex()
     if index < 1:
@@ -151,7 +155,7 @@ class OneCombo(FormComponent):
     model.insertElementAt(x,index-1)
     self.lstValues.setSelectedIndex(index-1)
     
-  def btnDown_click(self, *args):
+  def btnDown_click(self, event):
     model = self.lstValues.getModel()
     index = self.lstValues.getSelectedIndex()
     if index >= model.getSize()-1:
@@ -161,7 +165,7 @@ class OneCombo(FormComponent):
     model.insertElementAt(x,index+1)
     self.lstValues.setSelectedIndex(index+1)
     
-  def btnDelete_click(self, *args):
+  def btnDelete_click(self, event):
     model = self.lstValues.getModel()
     index = self.lstValues.getSelectedIndex()
     if index < 0:
@@ -175,38 +179,111 @@ class OneCombo(FormComponent):
     model.removeElementAt(index)
     self.lstValues.setSelectedIndex(index)
     
+  def setSelected(self, value):
+    n = 0
+    value = str(value)
+    model = self.lstValues.getModel()
+    for curvalue in model.elements():
+      if value == str(curvalue):
+        self.lstValues.setSelectedIndex(n)
+        return
+      n+=1
+
+class MainCombo(BaseCombo):
+  def __init__(self, form, subcombo, lstValues, btnUp, btnDown, btnDelete, btnAdd):
+    BaseCombo.__init__(self, form, lstValues, btnUp, btnDown, btnDelete, btnAdd)
+    self.autobind()
+
+  def lstValues_change(self, event):
+    if event.getValueIsAdjusting() :
+      return
+    self.form.putValuesInSubcombo()
+    self.form.updateValue()
+  
   def btnAdd_click(self, *args):
     model = self.lstValues.getModel()
-    index = self.lstValues.getSelectedIndex()
+    index = model.getSize()+1
     item = inputbox(
       "Item",
       getTitle(),
       messageType=QUESTION, 
       initialValue="item %s" % index
     )
-    model.addElement(item)
+    if item==None:
+      return
+    newItem = ItemWithSubitems(item)
+    model.addElement(newItem)
+    self.lstValues.setSelectedIndex(index-1)
+    self.form.putValuesInSubcombo()
+
+class SubCombo(BaseCombo):
+  def __init__(self, form, lstValues, btnUp, btnDown, btnDelete, btnAdd):
+    BaseCombo.__init__(self, form, lstValues, btnUp, btnDown, btnDelete, btnAdd)
+    self.autobind()
+
+  def lstValues_change(self, event):
+    if event.getValueIsAdjusting() :
+      return
+    value = self.lstValues.getSelectedValue()
+    if isEmpty(value):
+      return
+    self.form.updateValue()
+  
+  def btnUp_click(self, event):
+    BaseCombo.btnUp_click(self,event)
+    self.form.fetchValuesFromSubcombo()
     
+  def btnDown_click(self, event):
+    BaseCombo.btnDown_click(self,event)
+    self.form.fetchValuesFromSubcombo()
+    
+  def btnDelete_click(self, event):
+    BaseCombo.btnDelete_click(self,event)
+    self.form.fetchValuesFromSubcombo()
+    
+  def btnAdd_click(self, *args):
+    model = self.lstValues.getModel()
+    index = model.getSize()+1
+    item = inputbox(
+      "Item",
+      getTitle(),
+      messageType=QUESTION, 
+      initialValue="item %s" % index
+    )
+    if item == None:
+      return
+    model.addElement(item)
+    self.form.fetchValuesFromSubcombo()
+
 class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, FormPanel):
   def __init__(self, factory):
     MobileFormItemPanel.__init__(self,factory)
     FormPanel.__init__(self, getResource(__file__, "properties.xml"))
-    self.__combos = list()
-    for n in range(MIN_COMBOS,MAX_COMBOS+1):
-      combo = OneCombo(
-        self,
-        n,
-        getattr(self,"lstValues"+str(n)), 
-        getattr(self,"btnUp"+str(n)), 
-        getattr(self,"btnDown"+str(n)), 
-        getattr(self,"btnDelete"+str(n)), 
-        getattr(self,"btnAdd"+str(n))
-      )
-      combo.setVisible(True)
-      self.__combos.append(combo)
+    self.__subcombo = SubCombo(
+      self,
+      getattr(self,"lstValues2"), 
+      getattr(self,"btnUp2"), 
+      getattr(self,"btnDown2"), 
+      getattr(self,"btnDelete2"), 
+      getattr(self,"btnAdd2")
+    )
+    self.__mainCombo = MainCombo(
+      self,
+      self.__subcombo,
+      getattr(self,"lstValues1"), 
+      getattr(self,"btnUp1"), 
+      getattr(self,"btnDown1"), 
+      getattr(self,"btnDelete1"), 
+      getattr(self,"btnAdd1")
+    )
+    self.__mainCombo.setVisible(True)
+    self.__subcombo.setVisible(True)
     self.translateUI()
     
   def translateUI(self):
-    manager = ToolsSwingLocator.getToolsSwingManager()
+    #manager = ToolsSwingLocator.getToolsSwingManager()
+    from addons.mobileforms.patchs.fixtranslatecomponent import TranslateComponent as manager
+
     for component in ( self.lblType,
         self.lblKey,
         self.lblLabel,
@@ -222,21 +299,38 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
         self.btnUp2,
         self.btnDown2,
         self.btnDelete2,
-        self.btnAdd2,
-        self.btnUp3,
-        self.btnDown3,
-        self.btnDelete3,
-        self.btnAdd3
+        self.btnAdd2
       ):
       manager.translate(component)
-      
-  def updateValue(self, value):
-    self.txtValue.setText(value)
+
+  def putValuesInSubcombo(self):
+    value = self.__mainCombo.getValue()
+    if value==None:
+      return
+    self.__subcombo.setValues(value)
+    
+  def fetchValuesFromSubcombo(self):
+    mainValue = self.__mainCombo.getValue()
+    subValues = self.__subcombo.getValues()
+    del mainValue[:]
+    if subValues!=None:
+      mainValue.extend(subValues)
+    
+  def updateValue(self):
+    mainValue = self.__mainCombo.getValue()
+    subValue = self.__subcombo.getValue()
+    if mainValue == None:
+      self.txtValue.setText("")
+      return
+    if subValue == None:
+      self.txtValue.setText(mainValue.getValue())
+      return
+    self.txtValue.setText("%s#%s" % (mainValue, subValue))
     
   def btnClearValue_click(self, *args):
     self.txtValue.setText("")
-    for combo in self.__combos:
-      combo.clearSelection()
+    self.__mainCombo.clearSelection()
+    self.__subcombo.clearSelection()
           
   def put(self, item):
     self.txtType.setText(item.getFactory().getID())
@@ -245,33 +339,13 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
     self.chkMandatory.setSelected(item.isMandatory())
     self.chkIsLabel.setSelected(item.isLabel())
 
-    allvalues = item.getValues()
-
-    #selecteds = item.getValue()
-    #if isEmpty(selecteds):
-    #  selecteds = [None]*len(allvalues)
-    #else:
-    #  selecteds = selecteds.split("#")
-    #  if len(selecteds) != len(allvalues):
-    #    selecteds = [None]*len(allvalues)
-        
-    n = 1
-    self.__combos = list()
-    for values in allvalues:
-      combo = OneCombo(
-        self,
-        n,
-        getattr(self,"lstValues"+str(n)), 
-        getattr(self,"btnUp"+str(n)), 
-        getattr(self,"btnDown"+str(n)), 
-        getattr(self,"btnDelete"+str(n)), 
-        getattr(self,"btnAdd"+str(n))
-      )
-      combo.setValues(values)
-      combo.setVisible(True)
-      #combo.setValue(selecteds[n-1])
-      self.__combos.append(combo)
-      n+=1
+    self.__mainCombo.setValues(item.getAvailableValues())
+    if not item.getSelectedValue() in ("",None):
+      x = item.getSelectedValue().split("#")
+      if len(x)>0:
+        self.__mainCombo.setSelected(x[0])
+      if len(x)>1:
+        self.__subcombo.setSelected(x[1])
 
   def fetch(self,item):
     item.setKey(self.txtKey.getText())
@@ -279,11 +353,10 @@ class MobileFormItemConnectedStringComboPropertiesPanel(MobileFormItemPanel, For
     item.setMandatory(self.chkMandatory.isSelected())
     item.setIsLabel(self.chkIsLabel.isSelected())
 
-    values = item.getValues()
+    values = item.getAvailableValues()
     del values[:]
-    for combo in self.__combos:    
-      if not combo.isEmpty():
-        values.append(combo.getValues())
+    values.extend(self.__mainCombo.getValues())
+    item.setSelectedValue(self.txtValue.getText())
         
 class MobileFormItemConnectedStringComboPreviewPanel(MobileFormItemPanel, FormPanel):
   def __init__(self, factory):
@@ -293,21 +366,38 @@ class MobileFormItemConnectedStringComboPreviewPanel(MobileFormItemPanel, FormPa
   def put(self, item):
     self.lblLabel.setText(item.getCaption())
     self.btnClose.setVisible(False)
-    allvalues = item.getValues()
-    for n in range(MIN_COMBOS,MAX_COMBOS+1):
-      combo = getattr(self,"cboValues%s"%n,None)
-      if combo == None:
-        continue
-      if n > len(allvalues):
-        combo.setVisible(False)
-        continue
-      combo.setVisible(True)
-      model = combo.getModel()
-      model.removeAllElements()
-      for value in allvalues[n-1]:
-        model.addElement(str(value))
- 
+
+
+    model = self.cboValues1.getModel()
+    model.removeAllElements()
+    for value in item.getAvailableValues():
+      model.addElement(value)
+
+    if not item.getSelectedValue() in ("",None):
+      x = item.getSelectedValue().split("#")
+      if len(x)>0:
+        self.setSelected(self.cboValues1,x[0])
+      if len(x)>1:
+        self.setSelected(self.cboValues2,x[1])
+     
   def fetch(self,item):
     pass
 
-  
+  def setSelected(self, combo, value):
+    value = str(value)
+    model = combo.getModel()
+    for n in range(0,model.getSize()):
+      curvalue = model.getElementAt(n)
+      if value == str(curvalue):
+        combo.setSelectedIndex(n)
+        return
+
+  def cboValues1_change(self, event):
+    mainItem = self.cboValues1.getSelectedItem()
+    if mainItem == None:
+      return
+    model = self.cboValues2.getModel()
+    model.removeAllElements()
+    for value in mainItem:
+      model.addElement(value)
+    
