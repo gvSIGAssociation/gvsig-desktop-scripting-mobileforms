@@ -78,9 +78,9 @@ class MobileFormItemBooleanPropertiesPanel(MobileFormItemPanel, FormPanel):
     self.chkIsLabel.setSelected(item.isLabel())
 
     if item.getValue():
-      self.cboValue.setSelectedItndex(0)
+      self.cboValue.setSelectedIndex(0)
     else:
-      self.cboValue.setSelectedItndex(1)
+      self.cboValue.setSelectedIndex(1)
     #self.cboValue.setSelectedItem(str(item.getValue()))
 
   def fetch(self,item):
