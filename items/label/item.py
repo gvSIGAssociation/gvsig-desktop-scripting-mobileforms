@@ -88,7 +88,7 @@ class MobileFormItemLabelPropertiesPanel(MobileFormItemPanel, FormPanel):
 
   def put(self, item):
     self.txtType.setText(item.getFactory().getID())
-    self.txtValue.setText(item.getValue())
+    self.txtValue.setText(str(item.getValue()))
     self.txtSize.setText(str(item.getSize()))
     self.txtUrl.setText(str(item.getUrl()))
 
