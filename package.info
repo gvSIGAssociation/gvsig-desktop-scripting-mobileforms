@@ -1,22 +1,21 @@
 #
-#Sun Apr 29 23:42:18 CEST 2018
+#Mon Apr 30 12:50:16 CEST 2018
 owner=gvSIG association
 code=mobileforms
 java-version=j1_7
 official=true
 type=Script
-version=1.0.0-6
+version=1.0.0-7
 state=testing
 operating-system=all
 dependencies=
-sources-url=http\://github.com/gvSIGAssociation/gvsig-desktop-scripting-mobileforms
+sources-url=
 web-url=
 architecture=all
 model-version=1.0.1
 categories=Mobile
 description=Forms designer for gvSIG mobile.\n\nThis tool allows you to edit the file of forms definition "tags.json" of gvSIG Mobile from gvSIG desktop.\n\nIt allows to create or load a json file with the definition of forms, to create new forms or modify existing ones, as well as to show an approximate preview of how the form would be in gvSIG mobile.
-owner-url=http\://www.gvsig.com
-buildNumber=6
-download-url=http\://github.com/gvSIGAssociation/gvsig-desktop-scripting-mobileforms/releases/download/1.0.0-5/gvSIG-desktop-2.4.0-mobileforms-1.0.0-5-testing-all-all-j1_7.gvspkg
+owner-url=
+buildNumber=7
 gvSIG-version=2.4.0
 name=Mobile forms designer
