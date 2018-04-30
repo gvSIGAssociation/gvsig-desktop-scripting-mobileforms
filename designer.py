@@ -524,7 +524,7 @@ class Designer(FormPanel):
       i18n.getTranslation("_Section_name"),
       getTitle(),
       messageType=QUESTION, 
-      initialValue=self.__currentsection.getName()
+      initialValue=self.__currentSection.getName()
     )
     if name == None:
       return
