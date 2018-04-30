@@ -68,6 +68,9 @@ from addons.mobileforms.items.dynamicstring.item import MobileFormItemDynamicStr
 from addons.mobileforms.items.connectedstringcombo.item import MobileFormItemConnectedStringComboFactory
 from addons.mobileforms.items.map.item import MobileFormItemMapFactory
 
+from javax.swing import JScrollPane
+from javax.swing import JViewport
+
 class TraceFunction(object):
   def __init__(self, fn, name=None):
     self.__fn = fn
@@ -299,7 +302,8 @@ class Designer(FormPanel):
     self.lstFormItems.getModel().clear()
     self.pnlItem.removeAll()
     self.pnlItem.revalidate()
-    
+    self.tableSetVisible(self.tblPreviewForm,False)
+   
     self.updateListOfFormItems(form)
 
     if form!=None:
@@ -312,6 +316,8 @@ class Designer(FormPanel):
         self.cboForms.setEnabled(False)
         self.cboForms.setSelectedIndex(index)
         self.cboForms.setEnabled(True)
+        if not form.isEmpty():
+          self.tableSetVisible(self.tblPreviewForm,True)
 
   def createFormItemAddPopup(self):
     popup = JPopupMenu()
@@ -403,7 +409,8 @@ class Designer(FormPanel):
     if event.getValueIsAdjusting() :
       return
     form = self.lstPreviewForms.getSelectedValue()
-    if form == None:
+    if form == None or form.isEmpty():
+      self.tableSetVisible(self.tblPreviewForm,False)
       return 
     model = DefaultTableModel()
     model.addColumn("")
@@ -419,9 +426,18 @@ class Designer(FormPanel):
     model.addColumn(TableColumn(0,100,renderer, editor))
     self.tblPreviewForm.setColumnModel(model)
     self.tblPreviewForm.getTableHeader().setUI(None)
-    self.tblPreviewForm.setVisible(True)
+    self.tableSetVisible(self.tblPreviewForm,True)
     self.cboForms.setSelectedItem(form)
-    
+
+  def tableSetVisible(self, table, isVisible):
+    parent = table.getParent()
+    if isinstance(parent,JViewport):
+      parent = parent.getParent()
+    if isinstance(parent,JScrollPane):
+      parent.setVisible(isVisible)
+    else:
+      table.setVisible(isVisible)
+      
   def btnFileOpen_click(self, *args):
     i18n = ToolsLocator.getI18nManager()
     f = openFileDialog(

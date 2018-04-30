@@ -158,4 +158,7 @@ class Form(object):
 
   def __iter__(self):
     return self.__items.__iter__()
+
+  def isEmpty(self):
+    return len(self.__items)<1
     
