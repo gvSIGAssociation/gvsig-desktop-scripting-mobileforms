@@ -211,6 +211,8 @@ class Designer(FormPanel):
     self.btnSectionAdd.setEnabled(True)
     self.btnSectionRename.setEnabled(False)
     self.btnFormDelete.setEnabled(False)
+    self.btnFormAdd.setEnabled(False)
+    self.btnFormRename.setEnabled(False)
     self.btnFormItemAdd.setEnabled(False)
     self.btnFormItemDelete.setEnabled(False)
     self.btnFormItemDown.setEnabled(False)
@@ -225,6 +227,7 @@ class Designer(FormPanel):
       self.txtSectionDescription.setText(section.getDescription())
       self.btnSectionDelete.setEnabled(True)
       self.btnSectionRename.setEnabled(True)
+      self.btnFormAdd.setEnabled(True)
       model = DefaultComboBoxModel()
       for form in section:
         model.addElement(form)
