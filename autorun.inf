@@ -1,6 +1,3 @@
-[script]
-enable = true
-
 [Unit]
 type = Script
 name = autorun
@@ -11,4 +8,9 @@ version =
 [Script]
 main = main
 Lang = python
+enable = true
 
+[properties]
+autorun.group.name=default
+autorun.group.order=500
+autorun.order=500
